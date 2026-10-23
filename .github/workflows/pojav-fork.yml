@@ -1,0 +1,43 @@
+name: Build rebranded Pojav fork (playable APK)
+on:
+  workflow_dispatch:
+    inputs:
+      fork:
+        description: 'Your fork, e.g. yourname/PojavLauncher'
+        required: true
+      ref:
+        description: 'Branch or tag'
+        default: 'v3_openjdk'
+        required: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout DLauncher (for scripts)
+        uses: actions/checkout@v4
+        with:
+          path: dlauncher
+      - name: Checkout your Pojav fork
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ inputs.fork }}
+          ref: ${{ inputs.ref }}
+          path: pojav
+          submodules: recursive
+      - uses: actions/setup-java@v4
+        with:
+          distribution: zulu
+          java-version: '17'
+      - uses: android-actions/setup-android@v3
+      - name: Rebrand to DLauncher
+        run: bash dlauncher/scripts/rebrand.sh pojav
+      - name: Build
+        working-directory: pojav
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug --stacktrace
+      - uses: actions/upload-artifact@v4
+        with:
+          name: DLauncher-playable-debug
+          path: pojav/**/build/outputs/apk/**/*.apk

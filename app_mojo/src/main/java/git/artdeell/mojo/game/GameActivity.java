@@ -198,7 +198,7 @@ public class GameActivity extends BaseActivity implements ControlButtonMenuListe
                 android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.menu_customcontrol));
         ingameControlsEditorListener = (parent, view, position, id) -> {
             switch(position) {
-                case 0: mControlLayout.addControlButton(new ControlData("New")); break;
+                case 0: mControlLayout.addControlButton(ControlData.createBedrockButton()); break;
                 case 1: mControlLayout.addDrawer(new ControlDrawerData()); break;
                 case 2: mControlLayout.addJoystickButton(new ControlJoystickData()); break;
                 case 3: mControlLayout.openLoadDialog(); break;

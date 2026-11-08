@@ -8,7 +8,7 @@
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	android:orientation="vertical"
-	android:background="@color/background_app">
+	android:background="@drawable/background_sky">
 	<ScrollView
 		android:layout_width="match_parent"
 		android:layout_height="0dp"
@@ -26,6 +26,7 @@
 			<com.kdt.mcgui.LauncherMenuButton
 				android:id="@+id/news_button"
 				style="@style/LauncherMenuButton.Universal"
+				android:layout_marginEnd="@dimen/padding_medium"
 				android:layout_width="0dp"
 				android:text="@string/mcl_tab_wiki"
 				android:drawableStart="@drawable/ic_px_book"
@@ -34,6 +35,7 @@
 				app:layout_constraintEnd_toStartOf="@id/social_divider" />
 			<View
 				android:id="@+id/social_divider"
+				android:visibility="gone"
 				style="@style/LauncherFragment_Divider"
 				android:layout_marginVertical="@dimen/padding_large"
 				app:layout_constraintTop_toTopOf="parent"
@@ -43,6 +45,7 @@
 			<com.kdt.mcgui.LauncherMenuButton
 				android:id="@+id/social_media_button"
 				style="@style/LauncherMenuButton.Universal"
+				android:layout_marginStart="@dimen/padding_medium"
 				android:layout_width="0dp"
 				android:text="@string/mcl_button_social_media"
 				android:drawableStart="@drawable/ic_social_media"
@@ -87,6 +90,7 @@
 
 	<com.kdt.mcgui.mcVersionSpinner
 		android:id="@+id/mc_version_spinner"
+		android:layout_marginStart="@dimen/padding_heavy"
 		android:layout_width="0dp"
 		android:layout_height="@dimen/_52sdp"
 		android:background="@android:color/transparent"
@@ -105,8 +109,10 @@
 		android:id="@+id/edit_profile_button"
 		android:layout_width="@dimen/_52sdp"
 		android:layout_height="@dimen/_52sdp"
-		android:background="?android:attr/selectableItemBackground"
-
+		android:background="@drawable/menu_row_background"
+		android:scaleType="fitCenter"
+		android:padding="@dimen/padding_moderate"
+		android:layout_marginEnd="@dimen/_17sdp"
 		android:src="@drawable/ic_px_edit"
 		app:layout_constraintBottom_toBottomOf="@+id/mc_version_spinner"
 		app:layout_constraintEnd_toEndOf="parent"
@@ -118,7 +124,7 @@
 		android:id="@+id/_background_display_view"
 		android:layout_width="match_parent"
 		android:layout_height="0dp"
-		android:background="@color/background_bottom_bar"
+		android:background="@drawable/sky_bottom_bar"
 		android:translationZ="-1dp"
 
 		app:layout_constraintBottom_toBottomOf="parent"

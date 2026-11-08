@@ -25,8 +25,6 @@
 				android:layout_width="fill_parent"
 				android:layout_height="fill_parent"
 				android:defaultFocusHighlightEnabled="false"
-				android:focusable="true"
-				android:descendantFocusability="blocksDescendants"
                 tools:ignore="UnusedAttribute">
 
 				<git.artdeell.mojo.game.GameCursorView
@@ -101,7 +99,7 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:text="@string/loading_screen_warning"
-					android:textColor="@android:color/darker_gray"
+					android:textColor="@color/secondary_text"
 					android:textSize="12sp" />
 			</LinearLayout>
 		</FrameLayout>

@@ -483,6 +483,11 @@ public class EditControlSideDialog extends SideDialogView {
                     mCurrentlyEditedButton.getProperties().keycodes[finalI] = KeycodeUtils.getValueByIndex(mKeycodeSpinners[finalI].getSelectedItemPosition() - mSpecialArray.size());
                 }
                 mKeycodeTextviews[finalI].setText((String) mKeycodeSpinners[finalI].getSelectedItem());
+                if(finalI == 0 && mCurrentlyEditedButton.getProperties().refreshBuiltinIcon()) {
+                    // Keyboard / Mouse special: switch to the matching Bedrock icon
+                    mCurrentlyEditedButton.setProperties(mCurrentlyEditedButton.getProperties(), false);
+                    mCurrentlyEditedButton.setBackground();
+                }
             });
         }
 

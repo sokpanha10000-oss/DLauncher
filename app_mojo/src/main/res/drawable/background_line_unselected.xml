@@ -5,7 +5,7 @@
         <shape android:shape="rectangle">
             <stroke
                 android:width="@dimen/_2sdp"
-                android:color="#909090"/>
+                android:color="@color/bedrock_ring_disabled"/>
         </shape>
     </item>
     <item android:drawable="?attr/selectableItemBackground"/>

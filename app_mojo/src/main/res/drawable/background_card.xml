@@ -6,5 +6,7 @@
         android:left="@dimen/_2sdp"
         android:right="@dimen/_2sdp"
         android:top="@dimen/_2sdp" />
-    <solid android:color="@color/background_status_bar"/>
+    <solid android:color="@color/bedrock_panel_face"/>
+    <corners android:radius="8dp"/>
+    <stroke android:width="2dp" android:color="@color/sky_navy"/>
 </shape>

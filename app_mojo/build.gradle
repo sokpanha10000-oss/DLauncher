@@ -69,7 +69,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "git.artdeell.mjlaunch"
+        applicationId "com.dlauncher.app"
         minSdkVersion 21
         targetSdkVersion 36
         versionCode getDateSeconds()

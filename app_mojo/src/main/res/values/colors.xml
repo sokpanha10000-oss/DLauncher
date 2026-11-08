@@ -3,16 +3,48 @@
     <color name="control_button_color">#4CC4C4C4</color>
     <color name="control_button_pressed_color">#4D000000</color>
 
-    <color name="minebutton_color">#91dffb</color>
-    <color name="minebutton_secondary">#2a2a2a</color>
-    <color name="background_app">#181818</color>
+    <!-- ===== Blue Sky palette ===== -->
+    <color name="sky_top">#52A8F6</color>
+    <color name="sky_bottom">#1757B3</color>
+    <color name="sky_navy">#0B2F5C</color>
+    <color name="sky_cloud">#FFFFFF</color>
+    <color name="sky_sun">#FFC53D</color>
+
+    <color name="minebutton_color">#9BE0FF</color>
+    <color name="minebutton_secondary">#174E9E</color>
+    <color name="background_app">#1D68C4</color>
     <color name="divider">@color/background_overlay</color>
-    <color name="background_overlay">#464646</color>
-    <color name="background_status_bar">#242424</color>
-    <color name="background_bottom_bar">#232323</color>
+    <color name="background_overlay">#3E8DE0</color>
+    <color name="background_status_bar">#0F4A93</color>
+    <color name="background_bottom_bar">#0F4A93</color>
+    <color name="background_nav">#1757B3</color>
     <color name="icon_outline_color">#FFFFFF</color>
 
     <color name="primary_text">#FFFFFF</color>
-    <color name="secondary_text">#B2B2B2</color>
+    <color name="secondary_text">#D3E8FF</color>
+    <color name="button_text">#0B2F5C</color>
 
+    <!-- ===== Names used by the buttons and panels, now sky colors ===== -->
+    <color name="bedrock_outline">#0B2F5C</color>
+    <color name="bedrock_face">#EAF5FF</color>
+    <color name="bedrock_ring">#FFFFFF</color>
+    <color name="bedrock_shadow">#8FC4F0</color>
+    <color name="bedrock_face_pressed">#C9E4FA</color>
+    <color name="bedrock_ring_pressed">#DCEFFF</color>
+    <color name="bedrock_face_disabled">#9DB8D6</color>
+    <color name="bedrock_ring_disabled">#B4C9E0</color>
+    <color name="bedrock_shadow_disabled">#6F8DB0</color>
+
+    <color name="bedrock_green_face">#FFB21E</color>
+    <color name="bedrock_green_ring">#FFD35A</color>
+    <color name="bedrock_green_shadow">#C77A00</color>
+    <color name="bedrock_green_face_pressed">#F0A010</color>
+    <color name="bedrock_green_ring_pressed">#FFC23A</color>
+
+    <color name="bedrock_row_face">#2A7AD6</color>
+    <color name="bedrock_row_ring">#3C95EA</color>
+    <color name="bedrock_row_shadow">#174E9E</color>
+    <color name="bedrock_row_face_pressed">#4A9BEA</color>
+    <color name="bedrock_panel_face">#14478F</color>
+    <color name="bedrock_panel_ring">#9BE0FF</color>
 </resources>

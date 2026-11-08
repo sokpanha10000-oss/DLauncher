@@ -24,10 +24,8 @@ import git.artdeell.mojo.input.handleview.EditControlSideDialog;
 
 import git.artdeell.mojo.CallbackBridge;
 
-import io.github.controlwear.virtual.joystick.android.JoystickView;
-
 @SuppressLint("ViewConstructor")
-public class ControlJoystick extends JoystickView implements ControlInterface {
+public class ControlJoystick extends BedrockJoystickView implements ControlInterface {
     public final static int DIRECTION_FORWARD_LOCK = 8;
     // Directions keycode
     private final int[] mDirectionForwardLock = new int[]{KeyEvent.KEYCODE_CTRL_LEFT};
@@ -55,7 +53,6 @@ public class ControlJoystick extends JoystickView implements ControlInterface {
         setProperties(preProcessProperties(data, layout));
         setDeadzone(35);
         setFixedCenter(data.absolute);
-        setAutoReCenterButton(true);
 
         injectBehaviors();
 
@@ -120,9 +117,7 @@ public class ControlJoystick extends JoystickView implements ControlInterface {
 
     @Override
     public void setBackground() {
-        setBorderWidth((int) Tools.dpToPx(getProperties().strokeWidth * (getControlLayoutParent().getLayoutScale()/100f)));
-        setBorderColor(getProperties().strokeColor);
-        setBackgroundColor(getProperties().bgColor);
+        // The joystick draws its own Bedrock-style textures, there is no background to apply
     }
 
     @Override

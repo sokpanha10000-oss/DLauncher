@@ -34,6 +34,9 @@ import git.artdeell.mojo.game.platform.Platform;
  * sending keys has to be implemented by sub classes.
  */
 public interface ControlInterface extends View.OnLongClickListener, PlatformGrabListener {
+
+    /** bitmapTag prefix for icons bundled in the app resources: "res:<drawable name>" */
+    String BUILTIN_BITMAP_PREFIX = "res:";
     /**
      * Get this ControlInterface implementation as a View.
      * @return this
@@ -109,14 +112,45 @@ public interface ControlInterface extends View.OnLongClickListener, PlatformGrab
     }
 
     /**
+     * The bitmap tag currently shown (a button may swap between two images while in game)
+     */
+    default String getActiveBitmapTag() {
+        return getProperties().bitmapTag;
+    }
+
+    /**
+     * The image that is really shown: the button's own one, or for a button that still has the
+     * plain old look the built-in Bedrock button (the Keyboard and Mouse buttons get their icon).
+     * Returns null for buttons the user styled with their own colors.
+     */
+    default String getShownBitmapTag() {
+        String tag = getActiveBitmapTag();
+        if(Tools.isValidString(tag)) return tag;
+        ControlData properties = getProperties();
+        if(!properties.hasPlainLook()) return null;
+        return ControlData.builtinIconFor(properties.keycodes != null && properties.keycodes.length > 0
+                ? properties.keycodes[0] : 0);
+    }
+
+    /**
      * Apply the background according to properties
      */
     default void setBackground() {
         Drawable drawable = getControlView().getBackground();
-        String bitmapTag = getProperties().bitmapTag;
-        if(Tools.isValidString(bitmapTag)) {
+        String bitmapTag = getShownBitmapTag();
+        if(Tools.isValidString(bitmapTag) && bitmapTag.startsWith(BUILTIN_BITMAP_PREFIX)) {
+            // Icon bundled inside the app (res/drawable-nodpi), no layout zip needed
+            View view = getControlView();
+            int resId = view.getResources().getIdentifier(
+                    bitmapTag.substring(BUILTIN_BITMAP_PREFIX.length()), "drawable",
+                    view.getContext().getPackageName());
+            if(resId != 0) {
+                Drawable builtin = view.getResources().getDrawable(resId, view.getContext().getTheme());
+                if(builtin != null) drawable = builtin.mutate();
+            }
+        }else if(Tools.isValidString(bitmapTag)) {
             LayoutBitmaps storage = getControlLayoutParent().getBitmaps();
-            Bitmap bgBitmap = storage.getBitmap(getProperties().bitmapTag);
+            Bitmap bgBitmap = storage.getBitmap(bitmapTag);
             if(drawable instanceof BitmapDrawable && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                 ((BitmapDrawable)drawable).setBitmap(bgBitmap);
             }else {

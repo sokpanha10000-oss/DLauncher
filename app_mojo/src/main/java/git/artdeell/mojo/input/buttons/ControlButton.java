@@ -8,6 +8,9 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.SystemClock;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -28,8 +31,6 @@ import git.artdeell.mojo.prefs.LauncherPreferences;
 
 import git.artdeell.mojo.CallbackBridge;
 
-import static git.artdeell.mojo.input.buttons.BackgroundTint.DEFAULT_TINT_LIST;
-import static git.artdeell.mojo.input.buttons.BackgroundTint.TOGGLE_TINT_LIST;
 import static git.artdeell.mojo.game.platform.Platform.PLATFORM;
 
 @SuppressLint({"ViewConstructor", "AppCompatCustomView"})
@@ -43,6 +44,27 @@ public class ControlButton extends TextView implements ControlInterface {
     private boolean mHasBitmap;
 
     protected boolean mIsToggled = false;
+
+    /**
+     * Minecraft reads most inputs once per game tick (50ms). A tap that is released faster than
+     * that is often never seen (for example a jump), so every press is held at least this long.
+     */
+    private static final long MIN_HOLD_MS = 100;
+    /** Pace of the automatic double tap used by the fly action. Must stay above one tick. */
+    private static final long FLY_STEP_MS = 90;
+    // The platform layer takes Android key codes (not GLFW ones)
+    private static final int KEY_SPACE = KeyEvent.KEYCODE_SPACE;
+    private static final int KEY_T = KeyEvent.KEYCODE_T;
+
+    private final Handler mHandler = new Handler(Looper.getMainLooper());
+    private long mPressTime;
+    private Runnable mPendingRelease;
+
+    /** Two presses closer than this are a double tap (Minecraft's flight toggle window is 350ms) */
+    private static final long DOUBLE_TAP_MS = 300;
+    private long mLastTapTime = 0;
+    private final Runnable mFlightListener = () -> setBackground();
+    private boolean mTracksFlight = false;
 
     public ControlButton(ControlLayout layout, ControlData properties) {
         super(layout.getContext());
@@ -70,8 +92,21 @@ public class ControlButton extends TextView implements ControlInterface {
     }
 
     private void setupBitmapTint() {
-        BackgroundTint.applyToggleTint(getContext());
-        ColorStateList tintStateList = mProperties.isToggle ? TOGGLE_TINT_LIST : DEFAULT_TINT_LIST;
+        // Idle state must stay untinted so the artwork is shown exactly as designed,
+        // the highlight is only applied while the button is pressed or toggled on.
+        int highlight;
+        if (mProperties.isToggle) {
+            final TypedValue value = new TypedValue();
+            getContext().getTheme().resolveAttribute(R.attr.colorAccent, value, true);
+            highlight = androidx.core.graphics.ColorUtils.setAlphaComponent(
+                    value.data, BackgroundTint.BACKGROUND_TOGGLE_TINT_ALPHA);
+        } else {
+            highlight = androidx.core.graphics.ColorUtils.setAlphaComponent(
+                    Color.WHITE, BackgroundTint.BACKGROUND_DEFAULT_TINT_ALPHA * 2);
+        }
+        ColorStateList tintStateList = new ColorStateList(
+                new int[][]{ new int[]{android.R.attr.state_activated}, new int[]{} },
+                new int[]{ highlight, Color.TRANSPARENT });
         setBackgroundTintList(tintStateList);
         setBackgroundTintMode(PorterDuff.Mode.SRC_ATOP);
     }
@@ -95,12 +130,14 @@ public class ControlButton extends TextView implements ControlInterface {
         mProperties = properties;
         ControlInterface.super.setProperties(properties, changePos);
 
-        mHasBitmap = Tools.isValidString(mProperties.bitmapTag);
+        String shownTag = getShownBitmapTag();
+        mHasBitmap = Tools.isValidString(shownTag);
 
         if(mHasBitmap) setupBitmapTint();
         else setupNormalTint();
 
-        setText(properties.name);
+        // The Keyboard and Mouse icons have no room for a label
+        setText(properties.isIconOnly(shownTag) ? "" : properties.name);
     }
 
     @Override
@@ -139,6 +176,10 @@ public class ControlButton extends TextView implements ControlInterface {
 
     @Override
     public void handlePressed() {
+        // A release that is still waiting for its minimum hold time must happen first
+        flushPendingRelease();
+        mPressTime = SystemClock.uptimeMillis();
+        checkDoubleTap();
         if(!getProperties().isToggle){
             sendKeyPresses(true);
         }
@@ -146,9 +187,98 @@ public class ControlButton extends TextView implements ControlInterface {
 
     @Override
     public void handleReleased() {
-        if(!triggerToggle()) {
+        if(triggerToggle()) return;
+        long held = SystemClock.uptimeMillis() - mPressTime;
+        if(held >= MIN_HOLD_MS) {
             sendKeyPresses(false);
+            return;
         }
+        // Quick tap: keep the key down a little longer so the game really registers it
+        flushPendingRelease();
+        mPendingRelease = () -> {
+            mPendingRelease = null;
+            sendKeyPresses(false);
+        };
+        mHandler.postDelayed(mPendingRelease, MIN_HOLD_MS - held);
+    }
+
+    /** The image shown while flying, for the jump button (double tap) or a follower (sneak) */
+    private String getFlyBitmapTag() {
+        ControlData properties = getProperties();
+        if(Tools.isValidString(properties.doubleTapBitmapTag)) return properties.doubleTapBitmapTag;
+        if(Tools.isValidString(properties.flyBitmapTag)) return properties.flyBitmapTag;
+        return null;
+    }
+
+    @Override
+    public String getActiveBitmapTag() {
+        String flyTag = getFlyBitmapTag();
+        if(flyTag != null && FlightTracker.isFlying()) return flyTag;
+        return getProperties().bitmapTag;
+    }
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        // Only in the game: the editor has no game log and nothing to follow
+        if(getFlyBitmapTag() == null || !(getContext() instanceof GameActivity)) return;
+        mTracksFlight = true;
+        FlightTracker.addListener(mFlightListener);
+        FlightTracker.start();
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        if(!mTracksFlight) return;
+        mTracksFlight = false;
+        FlightTracker.removeListener(mFlightListener);
+        FlightTracker.stop();
+    }
+
+    /**
+     * The jump button: a double tap is Minecraft's flight toggle, so the flying state flips and
+     * every fly-aware button changes its image. In survival/adventure it cannot start flight, so
+     * nothing changes there. Like MCPE the image only changes when flight really starts or stops.
+     */
+    private void checkDoubleTap() {
+        if(!Tools.isValidString(getProperties().doubleTapBitmapTag)) return;
+        if(mLastTapTime != 0 && mPressTime - mLastTapTime <= DOUBLE_TAP_MS) {
+            mLastTapTime = 0;
+            boolean flying = FlightTracker.isFlying();
+            if(!flying && !FlightTracker.canFly()) return;
+            FlightTracker.setFlying(!flying);
+        }else {
+            mLastTapTime = mPressTime;
+        }
+    }
+
+    private void flushPendingRelease() {
+        if(mPendingRelease == null) return;
+        mHandler.removeCallbacks(mPendingRelease);
+        Runnable release = mPendingRelease;
+        mPendingRelease = null;
+        release.run();
+    }
+
+    private void sendRawKey(int keycode, boolean isDown) {
+        CallbackBridge.setModifiers(keycode, isDown);
+        PLATFORM.sendKeyEvent(keycode, isDown ? 1 : 0, CallbackBridge.getCurrentMods());
+    }
+
+    /** Space, Space again shortly after: toggles flight in creative mode */
+    private void toggleFlight() {
+        sendRawKey(KEY_SPACE, true);
+        mHandler.postDelayed(() -> sendRawKey(KEY_SPACE, false), FLY_STEP_MS);
+        mHandler.postDelayed(() -> sendRawKey(KEY_SPACE, true), FLY_STEP_MS * 2);
+        mHandler.postDelayed(() -> sendRawKey(KEY_SPACE, false), FLY_STEP_MS * 3);
+    }
+
+    /** Opens the chat and shows the on-screen keyboard so you can type right away */
+    private void openChat() {
+        sendRawKey(KEY_T, true);
+        mHandler.postDelayed(() -> sendRawKey(KEY_T, false), MIN_HOLD_MS);
+        mHandler.postDelayed(() -> GameActivity.toggleKeyboardState(true, 0), MIN_HOLD_MS + 100);
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -258,6 +388,14 @@ public class ControlButton extends TextView implements ControlInterface {
                 break;
             case ControlData.SPECIALBTN_MENU:
                 mControlLayout.notifyAppMenu();
+                break;
+
+            case ControlData.SPECIALBTN_FLY:
+                if(isDown) toggleFlight();
+                break;
+
+            case ControlData.SPECIALBTN_CHAT:
+                if(isDown) openChat();
                 break;
         }
     }

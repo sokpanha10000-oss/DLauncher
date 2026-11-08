@@ -1,17 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Pressed / focused row: dark blue fill and bright blue outline, like the selected item in the reference -->
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape android:shape="rectangle">
-            <solid android:color="@color/bedrock_row_shadow"/>
-            <corners android:radius="12dp"/>
-            <stroke android:width="2dp" android:color="@color/minebutton_color"/>
+            <solid android:color="@color/ui_accent_bright"/>
+            <corners android:radius="3dp"/>
         </shape>
     </item>
-    <item android:top="3dp" android:bottom="1dp">
+    <item
+        android:top="1dp"
+        android:bottom="1dp"
+        android:left="4dp"
+        android:right="1dp">
         <shape android:shape="rectangle">
-            <gradient android:angle="270" android:startColor="@color/bedrock_row_face_pressed" android:endColor="@color/bedrock_row_face_pressed"/>
-            <corners android:radius="12dp"/>
-            <stroke android:width="2dp" android:color="@color/minebutton_color"/>
+            <solid android:color="@color/ui_accent_glow"/>
+            <corners
+                android:topLeftRadius="0dp"
+                android:bottomLeftRadius="0dp"
+                android:topRightRadius="2dp"
+                android:bottomRightRadius="2dp"/>
         </shape>
     </item>
 </layer-list>

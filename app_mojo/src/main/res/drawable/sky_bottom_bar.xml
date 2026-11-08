@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
-    <gradient android:angle="270" android:startColor="#1A62BE" android:endColor="@color/background_bottom_bar"/>
-    <corners android:topLeftRadius="18dp" android:topRightRadius="18dp"/>
-    <stroke android:width="2dp" android:color="@color/sky_navy"/>
-</shape>
+<!-- Flat bottom bar (version picker + PLAY) with a thin line on top -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/ui_border_strong"/>
+        </shape>
+    </item>
+    <item android:top="1dp">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/ui_surface"/>
+        </shape>
+    </item>
+</layer-list>

@@ -1,4 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
-    <gradient android:angle="270" android:startColor="@color/sky_top" android:endColor="@color/sky_bottom"/>
-</shape>
+<!-- Screen background: near-black with a soft blue glow coming from the top -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:angle="270"
+                android:startColor="@color/sky_top"
+                android:endColor="@color/sky_bottom"/>
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:type="radial"
+                android:centerX="0.5"
+                android:centerY="0.0"
+                android:gradientRadius="100%"
+                android:startColor="@color/ui_glow_start"
+                android:endColor="@color/ui_glow_end"/>
+        </shape>
+    </item>
+</layer-list>

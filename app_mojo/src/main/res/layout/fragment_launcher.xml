@@ -109,7 +109,7 @@
 		android:id="@+id/edit_profile_button"
 		android:layout_width="@dimen/_52sdp"
 		android:layout_height="@dimen/_52sdp"
-		android:background="@drawable/menu_row_background"
+		android:background="@drawable/button_flat"
 		android:scaleType="fitCenter"
 		android:padding="@dimen/padding_moderate"
 		android:layout_marginEnd="@dimen/_17sdp"

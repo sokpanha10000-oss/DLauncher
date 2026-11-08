@@ -18,6 +18,8 @@ public class CustomControls {
 	public List<ControlData> mControlDataList;
 	public List<ControlDrawerData> mDrawerDataList;
 	public List<ControlJoystickData> mJoystickDataList;
+	/** Which shipped Bedrock layout this file came from, so it is never replaced once edited */
+	public int bedrockLayoutVersion;
 	public transient LayoutBitmaps mLayoutBitmaps;
 	public CustomControls() {
 		this(new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
@@ -44,10 +46,7 @@ public class CustomControls {
 		this.mControlDataList.add(new ControlData(ControlData.getSpecialButtons()[3])); // Secondary Mouse mControlDataList
 		this.mControlDataList.add(new ControlData(ControlData.getSpecialButtons()[4])); // Virtual mouse toggle
 
-		this.mControlDataList.add(new ControlData(ctx, R.string.control_debug, new int[]{KeyEvent.KEYCODE_F3}, "${margin}", "${margin}", false));
 		this.mControlDataList.add(new ControlData(ctx, R.string.control_chat, new int[]{KeyEvent.KEYCODE_T}, "${margin} * 2 + ${width}", "${margin}", false));
-		this.mControlDataList.add(new ControlData(ctx, R.string.control_listplayers, new int[]{KeyEvent.KEYCODE_TAB}, "${margin} * 4 + ${width} * 3", "${margin}", false));
-		this.mControlDataList.add(new ControlData(ctx, R.string.control_thirdperson, new int[]{KeyEvent.KEYCODE_F5}, "${margin}", "${height} + ${margin}", false));
 
 		this.mControlDataList.add(new ControlData(ctx, R.string.control_up, new int[]{KeyEvent.KEYCODE_W}, "${margin} * 2 + ${width}", "${bottom} - ${margin} * 3 - ${height} * 2", true));
 		this.mControlDataList.add(new ControlData(ctx, R.string.control_left, new int[]{KeyEvent.KEYCODE_A}, "${margin}", "${bottom} - ${margin} * 2 - ${height}", true));

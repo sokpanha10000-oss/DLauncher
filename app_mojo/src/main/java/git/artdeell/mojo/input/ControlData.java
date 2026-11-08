@@ -31,6 +31,10 @@ public class ControlData {
     public static final int SPECIALBTN_SCROLLDOWN = -8;
     public static final int SPECIALBTN_MENU = -9;
     public static final int SPECIALBTN_KEYBOARDPAN = -10;
+    /** One tap toggles creative flight (double-taps Space for you) */
+    public static final int SPECIALBTN_FLY = -11;
+    /** Opens chat (T) and brings up the on-screen keyboard */
+    public static final int SPECIALBTN_CHAT = -12;
 
     private static ControlData[] SPECIAL_BUTTONS;
     private static List<String> SPECIAL_BUTTON_NAME_ARRAY;
@@ -64,6 +68,13 @@ public class ControlData {
     public boolean displayInGame;
     public boolean displayInMenu;
     public String bitmapTag;
+    /**
+     * Marks the button that detects the double jump (Minecraft's flight toggle). While flying it
+     * shows this image instead of bitmapTag. Used by the Bedrock jump button.
+     */
+    public String doubleTapBitmapTag;
+    /** Optional image shown while the player is flying, for buttons that follow the jump button */
+    public String flyBitmapTag;
     private float width;         //Dp instead of Px now
     private float height;        //Dp instead of Px now
 
@@ -152,6 +163,52 @@ public class ControlData {
                 controlData.passThruEnabled,
                 controlData.bitmapTag
         );
+        this.doubleTapBitmapTag = controlData.doubleTapBitmapTag;
+        this.flyBitmapTag = controlData.flyBitmapTag;
+    }
+
+    private static final String BEDROCK_CUSTOM = ControlInterface.BUILTIN_BITMAP_PREFIX + "bedrock_custom_button";
+    private static final String BEDROCK_KEYBOARD = ControlInterface.BUILTIN_BITMAP_PREFIX + "bedrock_keyboard";
+    private static final String BEDROCK_MOUSE = ControlInterface.BUILTIN_BITMAP_PREFIX + "bedrock_mouse";
+    private static final int DEFAULT_BG_COLOR = 0x4D000000;
+
+    /** Built-in Bedrock image for a button that presses this key: the special buttons get their icon */
+    public static String builtinIconFor(int firstKeycode) {
+        if(firstKeycode == SPECIALBTN_KEYBOARD) return BEDROCK_KEYBOARD;
+        if(firstKeycode == SPECIALBTN_VIRTUALMOUSE) return BEDROCK_MOUSE;
+        return BEDROCK_CUSTOM;
+    }
+
+    /** True for a button that still has the plain old look, with no image and no custom colors */
+    public boolean hasPlainLook() {
+        return !Tools.isValidString(bitmapTag)
+                && bgColor == DEFAULT_BG_COLOR && strokeWidth == 0 && cornerRadius == 0;
+    }
+
+    /** True when the button shows a Bedrock icon that has no room for a text label */
+    public boolean isIconOnly(String shownTag) {
+        return BEDROCK_KEYBOARD.equals(shownTag) || BEDROCK_MOUSE.equals(shownTag);
+    }
+
+    /**
+     * Keeps the generic built-in image in sync with the first key (Keyboard and Mouse get their
+     * icon, everything else the blank button). Images the user picked are never touched.
+     * @return true if the image changed
+     */
+    public boolean refreshBuiltinIcon() {
+        if(!BEDROCK_CUSTOM.equals(bitmapTag) && !BEDROCK_KEYBOARD.equals(bitmapTag)
+                && !BEDROCK_MOUSE.equals(bitmapTag)) return false;
+        String wanted = builtinIconFor(keycodes != null && keycodes.length > 0 ? keycodes[0] : 0);
+        if(wanted.equals(bitmapTag)) return false;
+        bitmapTag = wanted;
+        return true;
+    }
+
+    /** The button the editor adds: a blank Bedrock button that presses E until it is edited */
+    public static ControlData createBedrockButton() {
+        ControlData data = new ControlData("E", new int[]{KeyEvent.KEYCODE_E});
+        data.bitmapTag = BEDROCK_CUSTOM;
+        return data;
     }
 
     public static ControlData[] getSpecialButtons() {
@@ -167,7 +224,9 @@ public class ControlData {
                     new ControlData("SCROLLUP", new int[]{SPECIALBTN_SCROLLUP}, "${margin}", "${margin}"),
                     new ControlData("SCROLLDOWN", new int[]{SPECIALBTN_SCROLLDOWN}, "${margin}", "${margin}"),
                     new ControlData("MENU", new int[]{SPECIALBTN_MENU}, "${margin}", "${margin}"),
-                    new ControlData("KeyboardPan", new int[]{SPECIALBTN_KEYBOARDPAN}, "${margin}", "${margin}")
+                    new ControlData("KeyboardPan", new int[]{SPECIALBTN_KEYBOARDPAN}, "${margin}", "${margin}"),
+                    new ControlData("Fly", new int[]{SPECIALBTN_FLY}, "${margin}", "${margin}"),
+                    new ControlData("Chat", new int[]{SPECIALBTN_CHAT}, "${margin}", "${margin}")
             };
         }
 

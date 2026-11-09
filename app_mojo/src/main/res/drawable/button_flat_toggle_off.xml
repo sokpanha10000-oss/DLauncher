@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Toggle OFF: normal button with a dim strip under it -->
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape android:shape="rectangle">
-            <solid android:color="@color/ui_border"/>
-            <corners android:radius="3dp"/>
+            <solid android:color="@color/bedrock_row_ring"/>
             <size android:height="25dp"/>
         </shape>
     </item>
-    <item android:bottom="5dp" android:drawable="@drawable/button_flat"/>
+    <item android:bottom="4dp" android:drawable="@drawable/button_flat"/>
 </layer-list>

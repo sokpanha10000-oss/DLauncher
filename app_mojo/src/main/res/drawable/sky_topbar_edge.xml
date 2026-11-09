@@ -1,18 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Line under the account bar: blue that fades from bright (left) to dim (right) -->
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item>
-        <shape android:shape="rectangle">
-            <solid android:color="@color/ui_bg_deep"/>
-        </shape>
-    </item>
-    <item android:bottom="2dp">
-        <shape android:shape="rectangle">
-            <gradient
-                android:angle="0"
-                android:startColor="@color/ui_accent_bright"
-                android:centerColor="@color/ui_accent"
-                android:endColor="@color/ui_accent_dim"/>
-        </shape>
-    </item>
-</layer-list>
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="@color/minebutton_color"/>
+</shape>

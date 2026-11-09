@@ -1,14 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Flat bottom bar (version picker + PLAY) with a thin line on top -->
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item>
-        <shape android:shape="rectangle">
-            <solid android:color="@color/ui_border_strong"/>
-        </shape>
-    </item>
-    <item android:top="1dp">
-        <shape android:shape="rectangle">
-            <solid android:color="@color/ui_surface"/>
-        </shape>
-    </item>
+    <item><shape android:shape="rectangle"><solid android:color="@color/bedrock_panel_ring"/></shape></item>
+    <item android:top="1dp"><shape android:shape="rectangle"><solid android:color="@color/background_bottom_bar"/></shape></item>
 </layer-list>

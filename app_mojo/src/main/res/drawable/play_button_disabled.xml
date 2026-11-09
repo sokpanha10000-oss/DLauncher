@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item><bitmap android:src="@drawable/play_art" android:gravity="fill"/></item>
+    <item>
+        <shape android:shape="rectangle">
+            <gradient android:angle="270" android:startColor="#CC0A101C" android:endColor="#EE0A101C"/>
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <stroke android:width="2dp" android:color="@color/bedrock_ring_disabled"/>
+        </shape>
+    </item>
+</layer-list>

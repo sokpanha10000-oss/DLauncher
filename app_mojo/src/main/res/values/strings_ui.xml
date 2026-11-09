@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="menu_title" translatable="false">Minecraft Java &amp; Bedrock</string>
+    <string name="menu_subtitle" translatable="false">Pick an instance or create a new one</string>
+    <string name="menu_installed" translatable="false">Your instances</string>
+    <string name="menu_exit" translatable="false">Exit</string>
+    <string name="menu_edit_instance" translatable="false">Edit instance</string>
+    <string name="home_tile_hint" translatable="false">Tap to switch or create an instance</string>
+</resources>

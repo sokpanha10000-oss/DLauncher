@@ -3,12 +3,57 @@
     <color name="control_button_color">#4CC4C4C4</color>
     <color name="control_button_pressed_color">#4D000000</color>
 
-    <!-- =====================================================================
-         Midnight Blue palette: dark, flat, square. Blue is the only accent.
-         Change the ui_accent* values to re-color the whole launcher.
-         ===================================================================== -->
+    <!-- ===== Midnight palette: deep navy surfaces, one bright blue accent ===== -->
+    <color name="sky_top">#0E1626</color>
+    <color name="sky_bottom">#070B14</color>
+    <color name="sky_navy">#05080F</color>
+    <color name="sky_cloud">#FFFFFF</color>
+    <color name="sky_sun">#4A9BFF</color>
 
-    <!-- Backgrounds, darkest to lightest -->
+    <color name="minebutton_color">#4A9BFF</color>
+    <color name="minebutton_secondary">#1A2A47</color>
+    <color name="background_app">#0A101C</color>
+    <color name="divider">@color/background_overlay</color>
+    <color name="background_overlay">#1D2A45</color>
+    <color name="background_status_bar">#0B111D</color>
+    <color name="background_bottom_bar">#0B111D</color>
+    <color name="background_nav">#070B14</color>
+    <color name="icon_outline_color">#FFFFFF</color>
+
+    <color name="primary_text">#F1F5FB</color>
+    <color name="secondary_text">#98A8C6</color>
+    <color name="button_text">#F1F5FB</color>
+
+    <!-- Flat buttons -->
+    <color name="bedrock_outline">#05080F</color>
+    <color name="bedrock_face">#17233B</color>
+    <color name="bedrock_ring">#2E4470</color>
+    <color name="bedrock_shadow">#0A101C</color>
+    <color name="bedrock_face_pressed">#223557</color>
+    <color name="bedrock_ring_pressed">#4A9BFF</color>
+    <color name="bedrock_face_disabled">#101827</color>
+    <color name="bedrock_ring_disabled">#1D2940</color>
+    <color name="bedrock_shadow_disabled">#0A101C</color>
+
+    <!-- Primary (accent) buttons -->
+    <color name="bedrock_green_face">#2F7BFF</color>
+    <color name="bedrock_green_ring">#6FB0FF</color>
+    <color name="bedrock_green_shadow">#1A4FB8</color>
+    <color name="bedrock_green_face_pressed">#2563EB</color>
+    <color name="bedrock_green_ring_pressed">#9CC9FF</color>
+
+    <!-- Rows, tiles and panels -->
+    <color name="bedrock_row_face">#101A2D</color>
+    <color name="bedrock_row_ring">#25365A</color>
+    <color name="bedrock_row_shadow">#0A101C</color>
+    <color name="bedrock_row_face_pressed">#1B2C4D</color>
+    <color name="bedrock_panel_face">#0F1726</color>
+    <color name="bedrock_panel_ring">#2B3C61</color>
+    <color name="ui_selected">#14284A</color>
+    <color name="ui_scrim_top">#59070B14</color>
+    <color name="ui_scrim_bottom">#EB070B14</color>
+
+    <!-- Names from the earlier Midnight theme, kept so older files still resolve -->
     <color name="ui_bg_deep">#05070C</color>
     <color name="ui_bg">#080C14</color>
     <color name="ui_surface">#0D121C</color>
@@ -16,68 +61,15 @@
     <color name="ui_surface_hover">#1B2334</color>
     <color name="ui_border">#1E2738</color>
     <color name="ui_border_strong">#2E3B56</color>
-
-    <!-- Blue accent (this replaces the old green / yellow) -->
     <color name="ui_accent_bright">#5B9DFF</color>
     <color name="ui_accent_light">#2865EB</color>
     <color name="ui_accent">#1F5BE0</color>
     <color name="ui_accent_pressed">#1B4FC9</color>
     <color name="ui_accent_dim">#1B3A7A</color>
     <color name="ui_accent_glow">#0E2247</color>
-
-    <!-- Text -->
     <color name="ui_text">#F1F5FB</color>
     <color name="ui_text_muted">#8B97AE</color>
     <color name="ui_text_disabled">#4B576D</color>
-
-    <!-- Glow at the top of every screen (see drawable/background_sky) -->
     <color name="ui_glow_start">#262563EB</color>
     <color name="ui_glow_end">#002563EB</color>
-
-    <!-- =====================================================================
-         Old names, kept so the rest of the app (and any code that is not in
-         this zip) still finds them. They now point at the palette above.
-         ===================================================================== -->
-    <color name="sky_top">#0D1424</color>
-    <color name="sky_bottom">@color/ui_bg_deep</color>
-    <color name="sky_navy">@color/ui_border</color>
-    <color name="sky_cloud">@color/ui_text</color>
-    <color name="sky_sun">@color/ui_accent_bright</color>
-
-    <color name="minebutton_color">@color/ui_accent_bright</color>
-    <color name="minebutton_secondary">@color/ui_accent_dim</color>
-    <color name="background_app">@color/ui_bg</color>
-    <color name="divider">@color/ui_border</color>
-    <color name="background_overlay">@color/ui_border</color>
-    <color name="background_status_bar">@color/ui_surface</color>
-    <color name="background_bottom_bar">@color/ui_surface</color>
-    <color name="background_nav">@color/ui_bg_deep</color>
-    <color name="icon_outline_color">#FFFFFF</color>
-
-    <color name="primary_text">@color/ui_text</color>
-    <color name="secondary_text">@color/ui_text_muted</color>
-    <color name="button_text">@color/ui_text</color>
-
-    <color name="bedrock_outline">@color/ui_border_strong</color>
-    <color name="bedrock_face">@color/ui_surface_raised</color>
-    <color name="bedrock_ring">@color/ui_border_strong</color>
-    <color name="bedrock_shadow">@color/ui_border</color>
-    <color name="bedrock_face_pressed">@color/ui_surface_hover</color>
-    <color name="bedrock_ring_pressed">@color/ui_accent_bright</color>
-    <color name="bedrock_face_disabled">@color/ui_surface</color>
-    <color name="bedrock_ring_disabled">@color/ui_border</color>
-    <color name="bedrock_shadow_disabled">@color/ui_bg</color>
-
-    <color name="bedrock_green_face">@color/ui_accent</color>
-    <color name="bedrock_green_ring">@color/ui_accent_bright</color>
-    <color name="bedrock_green_shadow">@color/ui_accent_dim</color>
-    <color name="bedrock_green_face_pressed">@color/ui_accent_pressed</color>
-    <color name="bedrock_green_ring_pressed">@color/ui_accent_bright</color>
-
-    <color name="bedrock_row_face">@color/ui_surface</color>
-    <color name="bedrock_row_ring">@color/ui_border_strong</color>
-    <color name="bedrock_row_shadow">@color/ui_border</color>
-    <color name="bedrock_row_face_pressed">@color/ui_accent_glow</color>
-    <color name="bedrock_panel_face">@color/ui_surface</color>
-    <color name="bedrock_panel_ring">@color/ui_border_strong</color>
 </resources>

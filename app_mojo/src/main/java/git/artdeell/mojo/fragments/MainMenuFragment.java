@@ -66,6 +66,14 @@ public class MainMenuFragment extends Fragment {
         mEditProfileButton.setOnClickListener(v -> mVersionSpinner.openProfileEditor(requireActivity()));
 
         mPlayButton.setOnClickListener(v -> ExtraCore.setValue(ExtraConstants.LAUNCH_GAME, true));
+        // The play button is textured with the key art (MineButton resets its own background)
+        mPlayButton.setBackgroundResource(R.drawable.play_button_background);
+
+        // The square game button and the selected-instance bar both open the instance menu
+        View.OnClickListener openMenu = v -> Tools.swapFragment(requireActivity(),
+                GameMenuFragment.class, GameMenuFragment.TAG, null);
+        view.findViewById(R.id.home_tile).setOnClickListener(openMenu);
+        mVersionSpinner.setOnClickListener(openMenu);
 
         mShareLogsButton.setOnClickListener((v) -> shareLog(requireContext()));
 

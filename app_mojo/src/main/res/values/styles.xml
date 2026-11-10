@@ -17,7 +17,7 @@
         <item name="buttonStyle">@style/MojoLauncher.Button</item>
         <item name="android:buttonStyleToggle">@style/MojoLauncher.Button.Toggle</item>
 
-        <!-- Midnight look: deep navy, flat square surfaces, one blue accent -->
+        <!-- Blue sky look: flat square surfaces, one blue sky color family -->
         <item name="colorPrimary">@color/background_status_bar</item>
         <item name="colorPrimaryDark">@color/background_status_bar</item>
         <item name="colorAccent">@color/minebutton_color</item>

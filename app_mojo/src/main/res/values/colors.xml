@@ -3,57 +3,57 @@
     <color name="control_button_color">#4CC4C4C4</color>
     <color name="control_button_pressed_color">#4D000000</color>
 
-    <!-- ===== Nether Portal palette: taken from the key art (deep indigo, portal violet, lava orange) ===== -->
-    <color name="sky_top">#1A0A48</color>
-    <color name="sky_bottom">#07002A</color>
-    <color name="sky_navy">#05001F</color>
+    <!-- ===== Blue sky palette: the ONLY color family used by the launcher UI ===== -->
+    <color name="sky_top">#2F8AE6</color>
+    <color name="sky_bottom">#0C4DA6</color>
+    <color name="sky_navy">#06306B</color>
     <color name="sky_cloud">#FFFFFF</color>
-    <color name="sky_sun">#A45BFF</color>
+    <color name="sky_sun">#7CC8FF</color>
 
-    <color name="minebutton_color">#A45BFF</color>
-    <color name="minebutton_secondary">#2A1B5E</color>
-    <color name="background_app">#09032F</color>
+    <color name="minebutton_color">#7CC8FF</color>
+    <color name="minebutton_secondary">#1D6FD0</color>
+    <color name="background_app">#0C4DA6</color>
     <color name="divider">@color/background_overlay</color>
-    <color name="background_overlay">#2A1B5E</color>
-    <color name="background_status_bar">#0C0538</color>
-    <color name="background_bottom_bar">#0C0538</color>
-    <color name="background_nav">#07002A</color>
+    <color name="background_overlay">#3C8DE0</color>
+    <color name="background_status_bar">#0B4490</color>
+    <color name="background_bottom_bar">#0B4490</color>
+    <color name="background_nav">#083B80</color>
     <color name="icon_outline_color">#FFFFFF</color>
 
-    <color name="primary_text">#F5F0FF</color>
-    <color name="secondary_text">#ABA0D6</color>
-    <color name="button_text">#F5F0FF</color>
+    <color name="primary_text">#FFFFFF</color>
+    <color name="secondary_text">#D6EBFF</color>
+    <color name="button_text">#FFFFFF</color>
 
     <!-- Flat buttons -->
-    <color name="bedrock_outline">#05001F</color>
-    <color name="bedrock_face">#1E1155</color>
-    <color name="bedrock_ring">#3D2B86</color>
-    <color name="bedrock_shadow">#09032F</color>
-    <color name="bedrock_face_pressed">#2E1D75</color>
-    <color name="bedrock_ring_pressed">#A45BFF</color>
-    <color name="bedrock_face_disabled">#120A33</color>
-    <color name="bedrock_ring_disabled">#241A55</color>
-    <color name="bedrock_shadow_disabled">#09032F</color>
+    <color name="bedrock_outline">#06306B</color>
+    <color name="bedrock_face">#1D6FD0</color>
+    <color name="bedrock_ring">#5FB4FF</color>
+    <color name="bedrock_shadow">#0C4DA6</color>
+    <color name="bedrock_face_pressed">#2B85E6</color>
+    <color name="bedrock_ring_pressed">#BFE6FF</color>
+    <color name="bedrock_face_disabled">#2A5C99</color>
+    <color name="bedrock_ring_disabled">#3D70AD</color>
+    <color name="bedrock_shadow_disabled">#0C4DA6</color>
 
-    <!-- Primary (portal violet) buttons -->
-    <color name="bedrock_green_face">#8A3DF5</color>
-    <color name="bedrock_green_ring">#C7A0FF</color>
-    <color name="bedrock_green_shadow">#5A1FC8</color>
-    <color name="bedrock_green_face_pressed">#6F2BDB</color>
-    <color name="bedrock_green_ring_pressed">#E2CCFF</color>
+    <!-- Primary (bright sky blue) buttons -->
+    <color name="bedrock_green_face">#3FA9F5</color>
+    <color name="bedrock_green_ring">#BFE6FF</color>
+    <color name="bedrock_green_shadow">#1C7CD0</color>
+    <color name="bedrock_green_face_pressed">#2C90E0</color>
+    <color name="bedrock_green_ring_pressed">#E3F4FF</color>
 
     <!-- Rows, tiles and panels -->
-    <color name="bedrock_row_face">#150B42</color>
-    <color name="bedrock_row_ring">#33236E</color>
-    <color name="bedrock_row_shadow">#09032F</color>
-    <color name="bedrock_row_face_pressed">#241658</color>
-    <color name="bedrock_panel_face">#10083A</color>
-    <color name="bedrock_panel_ring">#3A2A7A</color>
-    <color name="ui_selected">#2A1670</color>
-    <color name="ui_scrim_top">#4D050128</color>
-    <color name="ui_scrim_bottom">#F2050028</color>
-    <color name="ui_lava">#FF8A3D</color>
-    <color name="ui_lava_light">#FFC08A</color>
+    <color name="bedrock_row_face">#1A63BE</color>
+    <color name="bedrock_row_ring">#4A9CEB</color>
+    <color name="bedrock_row_shadow">#0C4DA6</color>
+    <color name="bedrock_row_face_pressed">#2378D6</color>
+    <color name="bedrock_panel_face">#135AAE</color>
+    <color name="bedrock_panel_ring">#5AAAF5</color>
+    <color name="ui_selected">#2A7FDF</color>
+    <color name="ui_scrim_top">#330B3F7F</color>
+    <color name="ui_scrim_bottom">#E6062F66</color>
+    <color name="ui_lava">#BFE6FF</color>
+    <color name="ui_lava_light">#FFFFFF</color>
 
     <!-- Names from the earlier Midnight theme, kept so older files still resolve -->
     <color name="ui_bg_deep">#05070C</color>

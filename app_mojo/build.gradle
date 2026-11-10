@@ -17,7 +17,7 @@ static def getDateSeconds() {
 }
 
 def getVersionName = {
-    return "DLauncher-1.2.0"
+    return "DLauncher-1.2.2"
 }
 
 def getCFApiKey = {

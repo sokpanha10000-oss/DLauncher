@@ -20,6 +20,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import git.artdeell.mojo.game.GameActivity;
+import git.artdeell.mojo.instances.Instance;
+import git.artdeell.mojo.instances.Instances;
 
 import git.artdeell.mojo.R;
 
@@ -30,6 +32,8 @@ import git.artdeell.mojo.input.handleview.EditControlSideDialog;
 import git.artdeell.mojo.prefs.LauncherPreferences;
 
 import git.artdeell.mojo.CallbackBridge;
+
+import java.io.File;
 
 import static git.artdeell.mojo.game.platform.Platform.PLATFORM;
 
@@ -57,12 +61,43 @@ public class ControlButton extends TextView implements ControlInterface {
     private static final int KEY_T = KeyEvent.KEYCODE_T;
 
     private final Handler mHandler = new Handler(Looper.getMainLooper());
-    private long mPressTime;
-    private Runnable mPendingRelease;
+
+    /**
+     * Shapes every tap so that Minecraft sees it: each press is held for a minimum time, and there
+     * is always a short moment with the key up between two presses (otherwise a fast second tap
+     * looks like the key was never released and the game ignores it, for example a double jump).
+     */
+    private final TapShaper mShaper = new TapShaper(new TapShaper.Output() {
+        @Override
+        public void keyDown() {
+            onKeyDownSent();
+        }
+
+        @Override
+        public void keyUp() {
+            sendKeyPresses(false);
+        }
+    }, new TapShaper.Timer() {
+        @Override
+        public long now() {
+            return SystemClock.uptimeMillis();
+        }
+
+        @Override
+        public void post(Runnable runnable, long delayMs) {
+            mHandler.postDelayed(runnable, delayMs);
+        }
+
+        @Override
+        public void cancel(Runnable runnable) {
+            mHandler.removeCallbacks(runnable);
+        }
+    });
 
     /** Two presses closer than this are a double tap (Minecraft's flight toggle window is 350ms) */
     private static final long DOUBLE_TAP_MS = 300;
-    private long mLastTapTime = 0;
+    /** When the jump key was really sent down the last time (not when the finger touched) */
+    private long mLastKeyDownAt = 0;
     private final Runnable mFlightListener = () -> setBackground();
     private boolean mTracksFlight = false;
 
@@ -176,30 +211,19 @@ public class ControlButton extends TextView implements ControlInterface {
 
     @Override
     public void handlePressed() {
-        // A release that is still waiting for its minimum hold time must happen first
-        flushPendingRelease();
-        mPressTime = SystemClock.uptimeMillis();
-        checkDoubleTap();
-        if(!getProperties().isToggle){
-            sendKeyPresses(true);
-        }
+        if(!getProperties().isToggle) mShaper.press();
     }
 
     @Override
     public void handleReleased() {
         if(triggerToggle()) return;
-        long held = SystemClock.uptimeMillis() - mPressTime;
-        if(held >= MIN_HOLD_MS) {
-            sendKeyPresses(false);
-            return;
-        }
-        // Quick tap: keep the key down a little longer so the game really registers it
-        flushPendingRelease();
-        mPendingRelease = () -> {
-            mPendingRelease = null;
-            sendKeyPresses(false);
-        };
-        mHandler.postDelayed(mPendingRelease, MIN_HOLD_MS - held);
+        mShaper.release();
+    }
+
+    /** The key really went down in the game */
+    private void onKeyDownSent() {
+        sendKeyPresses(true);
+        detectDoubleJump(SystemClock.uptimeMillis());
     }
 
     /** The image shown while flying, for the jump button (double tap) or a follower (sneak) */
@@ -224,41 +248,46 @@ public class ControlButton extends TextView implements ControlInterface {
         if(getFlyBitmapTag() == null || !(getContext() instanceof GameActivity)) return;
         mTracksFlight = true;
         FlightTracker.addListener(mFlightListener);
-        FlightTracker.start();
+        FlightTracker.start(findSavesDirectory());
     }
 
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
+        mShaper.cancel(); // never leave a key stuck down
         if(!mTracksFlight) return;
         mTracksFlight = false;
         FlightTracker.removeListener(mFlightListener);
         FlightTracker.stop();
     }
 
-    /**
-     * The jump button: a double tap is Minecraft's flight toggle, so the flying state flips and
-     * every fly-aware button changes its image. In survival/adventure it cannot start flight, so
-     * nothing changes there. Like MCPE the image only changes when flight really starts or stops.
-     */
-    private void checkDoubleTap() {
-        if(!Tools.isValidString(getProperties().doubleTapBitmapTag)) return;
-        if(mLastTapTime != 0 && mPressTime - mLastTapTime <= DOUBLE_TAP_MS) {
-            mLastTapTime = 0;
-            boolean flying = FlightTracker.isFlying();
-            if(!flying && !FlightTracker.canFly()) return;
-            FlightTracker.setFlying(!flying);
-        }else {
-            mLastTapTime = mPressTime;
+    /** The "saves" folder of the instance that is running, where the worlds are stored */
+    private File findSavesDirectory() {
+        try {
+            Instance instance = Instances.loadSelectedInstance();
+            if(instance != null) return new File(instance.getGameDirectory(), "saves");
+        }catch (Exception e) {
+            Log.w("ControlButton", "Could not find the saves folder", e);
         }
+        return null;
     }
 
-    private void flushPendingRelease() {
-        if(mPendingRelease == null) return;
-        mHandler.removeCallbacks(mPendingRelease);
-        Runnable release = mPendingRelease;
-        mPendingRelease = null;
-        release.run();
+    /**
+     * The jump button: a double jump is Minecraft's flight toggle. It is judged by the moments the
+     * key was really sent to the game, so a second tap that the game could not have seen as a new
+     * press never counts. In survival or adventure the toggle cannot start flight, so nothing
+     * changes there. Like MCPE the image only changes when flight starts or stops.
+     */
+    private void detectDoubleJump(long sentAt) {
+        if(!Tools.isValidString(getProperties().doubleTapBitmapTag)) return;
+        if(mLastKeyDownAt != 0 && sentAt - mLastKeyDownAt <= DOUBLE_TAP_MS) {
+            mLastKeyDownAt = 0;
+            boolean flying = FlightTracker.isFlying();
+            if(!flying && !FlightTracker.canFly()) return;
+            FlightTracker.setFlyingByUser(!flying);
+        }else {
+            mLastKeyDownAt = sentAt;
+        }
     }
 
     private void sendRawKey(int keycode, boolean isDown) {

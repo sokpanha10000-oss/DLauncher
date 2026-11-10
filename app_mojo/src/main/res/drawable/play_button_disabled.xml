@@ -3,7 +3,7 @@
     <item><bitmap android:src="@drawable/play_art" android:gravity="fill"/></item>
     <item>
         <shape android:shape="rectangle">
-            <gradient android:angle="270" android:startColor="#CC09032F" android:endColor="#EE09032F"/>
+            <gradient android:angle="270" android:startColor="#CC0C4DA6" android:endColor="#EE0C4DA6"/>
         </shape>
     </item>
     <item>

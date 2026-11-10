@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle"><solid android:color="@color/bedrock_outline"/></shape>
+    </item>
+    <item android:left="2dp" android:top="2dp" android:right="2dp" android:bottom="2dp">
+        <shape android:shape="rectangle"><solid android:color="@color/bedrock_shadow"/></shape>
+    </item>
+    <item android:left="2dp" android:top="4dp" android:right="2dp" android:bottom="4dp">
+        <shape android:shape="rectangle"><solid android:color="@color/bedrock_ring_pressed"/></shape>
+    </item>
+    <item android:left="4dp" android:top="6dp" android:right="4dp" android:bottom="6dp">
+        <shape android:shape="rectangle"><solid android:color="@color/bedrock_face_pressed"/></shape>
+    </item>
+</layer-list>

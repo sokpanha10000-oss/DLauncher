@@ -4,12 +4,12 @@
     <item><shape android:shape="rectangle"><solid android:color="#33000000"/></shape></item>
     <item>
         <shape android:shape="rectangle">
-            <gradient android:angle="270" android:startColor="#66000000" android:endColor="#CC060A12"/>
+            <gradient android:angle="270" android:startColor="#59000000" android:endColor="#B305001F"/>
         </shape>
     </item>
     <item>
         <shape android:shape="rectangle">
-            <stroke android:width="2dp" android:color="@color/bedrock_green_ring_pressed"/>
+            <stroke android:width="2dp" android:color="@color/ui_lava_light"/>
         </shape>
     </item>
 </layer-list>

@@ -1,163 +1,178 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:app="http://schemas.android.com/apk/res-auto"
-	android:id="@+id/fragment_menu_main"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	android:background="@color/background_app">
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/fragment_menu_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_app">
 
-	<!-- Blurred key art behind everything -->
-	<ImageView
-		android:id="@+id/home_background"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:importantForAccessibility="no"
-		android:scaleType="centerCrop"
-		android:src="@drawable/home_bg" />
+    <!-- Blurred key art behind everything -->
+    <ImageView
+        android:id="@+id/home_background"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:importantForAccessibility="no"
+        android:scaleType="centerCrop"
+        android:src="@drawable/home_bg"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-	<View
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:background="@drawable/scrim_home" />
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/scrim_home"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-	<ScrollView
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:clipToPadding="false"
-		android:fillViewport="true"
-		android:scrollbars="none">
+    <!-- Bottom block: tools, then play, then the selected instance, then the tile takes the rest -->
+    <LinearLayout
+        android:id="@+id/home_tools"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/padding_moderate"
+        android:layout_marginBottom="@dimen/padding_moderate"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
-		<LinearLayout
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:gravity="center_horizontal"
-			android:orientation="vertical"
-			android:paddingHorizontal="@dimen/padding_large"
-			android:paddingTop="@dimen/padding_large"
-			android:paddingBottom="@dimen/_24sdp">
-
-			<!-- The square game button: opens the instance menu -->
-			<androidx.constraintlayout.widget.ConstraintLayout
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content">
-
-				<ImageButton
-					android:id="@+id/home_tile"
-					android:layout_width="0dp"
-					android:layout_height="0dp"
-					android:layout_marginHorizontal="@dimen/_40sdp"
-					android:background="@drawable/ui_tile_frame"
-					android:contentDescription="@string/menu_title"
-					android:padding="@dimen/padding_small"
-					android:scaleType="centerCrop"
-					android:src="@drawable/home_keyart"
-					app:layout_constraintDimensionRatio="1:1"
-					app:layout_constraintEnd_toEndOf="parent"
-					app:layout_constraintStart_toStartOf="parent"
-					app:layout_constraintTop_toTopOf="parent" />
-			</androidx.constraintlayout.widget.ConstraintLayout>
-
-			<LinearLayout
-				android:layout_width="match_parent"
-				android:layout_height="@dimen/_48sdp"
-				android:layout_marginTop="@dimen/padding_heavy"
-				android:orientation="horizontal">
-
-			<com.kdt.mcgui.mcVersionSpinner
-                android:id="@+id/mc_version_spinner"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/news_button"
+                style="@style/MojoLauncher.MenuTile"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="@dimen/_62sdp"
+                android:layout_margin="@dimen/padding_medium"
                 android:layout_weight="1"
-                android:background="@drawable/ui_chip"
-                android:drawableEnd="@drawable/spinner_arrow"
-                app:drawableEndSize="@dimen/padding_heavy"
-                app:drawableStartIntegerScaling="true"
-                app:drawableStartSize="@dimen/_30sdp"
-                app:drawableEndPadding="@dimen/_1sdp" />
+                android:drawableTop="@drawable/ic_px_book"
+                android:text="@string/mcl_tab_wiki" />
+            <Button
+                android:id="@+id/social_media_button"
+                style="@style/MojoLauncher.MenuTile"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_62sdp"
+                android:layout_margin="@dimen/padding_medium"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/ic_social_media"
+                android:text="@string/mcl_button_social_media" />
+            <Button
+                android:id="@+id/custom_control_button"
+                style="@style/MojoLauncher.MenuTile"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_62sdp"
+                android:layout_margin="@dimen/padding_medium"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/ic_px_gamepad"
+                android:text="@string/mcl_option_customcontrol" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/install_jar_button"
+                style="@style/MojoLauncher.MenuTile"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_62sdp"
+                android:layout_margin="@dimen/padding_medium"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/ic_px_java_run"
+                android:text="@string/main_install_jar_file" />
+            <Button
+                android:id="@+id/share_logs_button"
+                style="@style/MojoLauncher.MenuTile"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_62sdp"
+                android:layout_margin="@dimen/padding_medium"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/ic_px_sharelog"
+                android:text="@string/main_share_logs" />
+            <Button
+                android:id="@+id/open_files_button"
+                style="@style/MojoLauncher.MenuTile"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_62sdp"
+                android:layout_margin="@dimen/padding_medium"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/ic_px_folder"
+                android:text="@string/mcl_button_open_directory" />
+        </LinearLayout>
+    </LinearLayout>
 
-            <ImageButton
-                android:id="@+id/edit_profile_button"
-                android:layout_width="@dimen/_44sdp"
-                android:layout_height="match_parent"
-                android:layout_marginStart="@dimen/padding_moderate"
-                android:background="@drawable/menu_row_background"
-                android:contentDescription="@string/menu_edit_instance"
-                android:padding="@dimen/padding_moderate"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ic_px_edit" />
-			</LinearLayout>
+    <com.kdt.mcgui.MineButton
+        android:id="@+id/play_button"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/_54sdp"
+        android:text="@string/main_play"
+        android:textAllCaps="true"
+        android:textColor="@android:color/white"
+        android:layout_marginHorizontal="@dimen/fragment_padding_medium"
+        android:layout_marginBottom="@dimen/padding_moderate"
+        app:layout_constraintBottom_toTopOf="@id/home_tools"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
 
-			<com.kdt.mcgui.MineButton
-				android:id="@+id/play_button"
-				android:layout_width="match_parent"
-				android:layout_height="@dimen/_56sdp"
-				android:layout_marginTop="@dimen/padding_moderate"
-				android:text="@string/main_play"
-				android:textAllCaps="true"
-				android:textColor="@android:color/white" />
+    <LinearLayout
+        android:id="@+id/home_version_row"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/_46sdp"
+        android:orientation="horizontal"
+        android:layout_marginHorizontal="@dimen/fragment_padding_medium"
+        android:layout_marginBottom="@dimen/padding_moderate"
+        app:layout_constraintBottom_toTopOf="@id/play_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        >
 
-			<GridLayout
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:layout_marginTop="@dimen/padding_large"
-				android:columnCount="3">
+        <com.kdt.mcgui.mcVersionSpinner
+            android:id="@+id/mc_version_spinner"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/ui_chip"
+            android:drawableEnd="@drawable/spinner_arrow"
+            app:drawableEndPadding="@dimen/_1sdp"
+            app:drawableEndSize="@dimen/padding_heavy"
+            app:drawableStartIntegerScaling="true"
+            app:drawableStartSize="@dimen/_30sdp" />
 
-				<Button
-				    android:id="@+id/news_button"
-				    style="@style/MojoLauncher.MenuTile"
-				    android:layout_width="0dp"
-				    android:layout_height="@dimen/_68sdp"
-				    android:layout_columnWeight="1"
-				    android:layout_margin="@dimen/padding_medium"
-				    android:drawableTop="@drawable/ic_px_book"
-				    android:text="@string/mcl_tab_wiki" />
-				<Button
-				    android:id="@+id/social_media_button"
-				    style="@style/MojoLauncher.MenuTile"
-				    android:layout_width="0dp"
-				    android:layout_height="@dimen/_68sdp"
-				    android:layout_columnWeight="1"
-				    android:layout_margin="@dimen/padding_medium"
-				    android:drawableTop="@drawable/ic_social_media"
-				    android:text="@string/mcl_button_social_media" />
-				<Button
-				    android:id="@+id/custom_control_button"
-				    style="@style/MojoLauncher.MenuTile"
-				    android:layout_width="0dp"
-				    android:layout_height="@dimen/_68sdp"
-				    android:layout_columnWeight="1"
-				    android:layout_margin="@dimen/padding_medium"
-				    android:drawableTop="@drawable/ic_px_gamepad"
-				    android:text="@string/mcl_option_customcontrol" />
-				<Button
-				    android:id="@+id/install_jar_button"
-				    style="@style/MojoLauncher.MenuTile"
-				    android:layout_width="0dp"
-				    android:layout_height="@dimen/_68sdp"
-				    android:layout_columnWeight="1"
-				    android:layout_margin="@dimen/padding_medium"
-				    android:drawableTop="@drawable/ic_px_java_run"
-				    android:text="@string/main_install_jar_file" />
-				<Button
-				    android:id="@+id/share_logs_button"
-				    style="@style/MojoLauncher.MenuTile"
-				    android:layout_width="0dp"
-				    android:layout_height="@dimen/_68sdp"
-				    android:layout_columnWeight="1"
-				    android:layout_margin="@dimen/padding_medium"
-				    android:drawableTop="@drawable/ic_px_sharelog"
-				    android:text="@string/main_share_logs" />
-				<Button
-				    android:id="@+id/open_files_button"
-				    style="@style/MojoLauncher.MenuTile"
-				    android:layout_width="0dp"
-				    android:layout_height="@dimen/_68sdp"
-				    android:layout_columnWeight="1"
-				    android:layout_margin="@dimen/padding_medium"
-				    android:drawableTop="@drawable/ic_px_folder"
-				    android:text="@string/mcl_button_open_directory" />
-			</GridLayout>
-		</LinearLayout>
-	</ScrollView>
-</FrameLayout>
+        <ImageButton
+            android:id="@+id/edit_profile_button"
+            android:layout_width="@dimen/_46sdp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/padding_moderate"
+            android:background="@drawable/menu_row_background"
+            android:contentDescription="@string/menu_edit_instance"
+            android:padding="@dimen/padding_moderate"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_px_edit" />
+    </LinearLayout>
+
+    <!-- The square game button: the biggest square that fits the free space, centered -->
+    <ImageButton
+        android:id="@+id/home_tile"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="@dimen/_28sdp"
+        android:layout_marginTop="@dimen/padding_large"
+        android:layout_marginBottom="@dimen/padding_heavy"
+        android:background="@drawable/ui_tile_frame"
+        android:contentDescription="@string/menu_title"
+        android:padding="@dimen/padding_small"
+        android:scaleType="centerCrop"
+        android:src="@drawable/home_keyart"
+        app:layout_constraintBottom_toTopOf="@id/home_version_row"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
